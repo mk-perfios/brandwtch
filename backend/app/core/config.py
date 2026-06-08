@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     # Redis / Celery
     REDIS_URL: str = "redis://localhost:6379/0"
 
+    # When False (lite / no-Docker mode), crawls run inline instead of via Celery+Redis.
+    USE_CELERY: bool = True
+
     # Reddit
     REDDIT_CLIENT_ID: Optional[str] = None
     REDDIT_CLIENT_SECRET: Optional[str] = None

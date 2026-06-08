@@ -2,12 +2,13 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase
 from app.core.config import settings
 
-engine = create_async_engine(
-    settings.DATABASE_URL,
-    echo=settings.DEBUG,
-    pool_size=10,
-    max_overflow=20,
-)
+# SQLite (lite / no-Docker mode) uses NullPool and rejects QueuePool sizing args,
+# so only pass pool sizing for real server databases like PostgreSQL.
+_engine_kwargs = {"echo": settings.DEBUG}
+if not settings.DATABASE_URL.startswith("sqlite"):
+    _engine_kwargs.update(pool_size=10, max_overflow=20)
+
+engine = create_async_engine(settings.DATABASE_URL, **_engine_kwargs)
 
 AsyncSessionLocal = async_sessionmaker(
     engine,

@@ -6,6 +6,7 @@ import uuid
 
 from app.core.database import get_db
 from app.core.deps import get_current_org
+from app.core.config import settings
 from app.models.brand import Brand
 
 router = APIRouter()
@@ -69,9 +70,13 @@ async def monitoring_status(current_org=Depends(get_current_org), db: AsyncSessi
 
 
 async def _dispatch_crawl(brand_id: str, platforms: List[str]):
-    try:
-        from app.tasks.monitor_tasks import crawl_brand
-        crawl_brand.delay(brand_id, platforms)
-    except Exception:
-        from app.tasks.monitor_tasks import run_brand_monitoring
-        await run_brand_monitoring(brand_id, platforms)
+    # In lite / no-Docker mode (USE_CELERY=false) run the crawl inline.
+    if settings.USE_CELERY:
+        try:
+            from app.tasks.monitor_tasks import crawl_brand
+            crawl_brand.delay(brand_id, platforms)
+            return
+        except Exception:
+            pass
+    from app.tasks.monitor_tasks import run_brand_monitoring
+    await run_brand_monitoring(brand_id, platforms)
