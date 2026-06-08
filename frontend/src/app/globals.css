@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --bg-elevated: #20203a;
+  --border: #2a2a3e;
+  --accent: #6366f1;
+  --text-primary: #e2e8f0;
+  --text-muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a3e;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a5e;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #2a2a3e;
+}
+
+.recharts-text {
+  fill: #94a3b8 !important;
+  font-size: 12px;
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1a1a2e !important;
+  border: 1px solid #2a2a3e !important;
+  border-radius: 8px !important;
+}

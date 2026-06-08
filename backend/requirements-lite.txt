@@ -1,0 +1,33 @@
+# Lite / no-Docker dependencies — runs BrandWtch with a built-in SQLite
+# database and no Redis/Celery server. Installs cleanly on Windows/macOS.
+
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+
+# Database (SQLite via aiosqlite — no separate DB server needed)
+sqlalchemy[asyncio]==2.0.36
+aiosqlite==0.20.0
+
+# Validation & settings
+pydantic==2.10.3
+pydantic-settings==2.6.1
+python-dotenv==1.0.1
+email-validator==2.2.0
+
+# Auth
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1  # pinned: passlib 1.7.4 breaks with bcrypt >= 4.1
+
+# HTTP / scraping (keyless crawlers: Hacker News, and Google/AI-content if you add a SerpAPI key)
+httpx==0.28.0
+beautifulsoup4==4.12.3
+lxml==5.3.0
+
+# Sentiment (rule-based, no GPU, works with zero API keys)
+vaderSentiment==3.3.2
+
+# Imported by the monitoring code path (no Redis server required in lite mode)
+celery==5.4.0
